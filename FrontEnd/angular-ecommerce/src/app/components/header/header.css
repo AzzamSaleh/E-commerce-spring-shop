@@ -1,0 +1,13 @@
+.admin-btn {
+  background: #0b2a5b;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+.admin-btn:hover {
+  opacity: 0.9;
+}

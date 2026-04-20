@@ -1,0 +1,38 @@
+<div class="form-header search-wrap">
+
+  <div class="search-input-wrap">
+    <input
+      type="text"
+      class="au-input au-input-xl"
+      placeholder="Search for products ..."
+      [formControl]="control"
+      [matAutocomplete]="auto"
+      autocomplete="off"
+      (keyup.enter)="doSearch(control.value)"
+    />
+
+    <mat-autocomplete #auto="matAutocomplete" class="search-autocomplete">
+      <ng-container *ngIf="filteredProducts$ | async as products">
+        <mat-option
+          *ngFor="let p of products"
+          [value]="p.name ?? ''"
+          (onSelectionChange)="($event.isUserInput) && onOptionSelected(p.name ?? '')"
+        >
+          <div class="suggestion-row">
+            <span class="suggestion-title">{{ p.name }}</span>
+            <span class="suggestion-price" *ngIf="p.unitPrice != null">{{ p.unitPrice | currency:'USD' }}</span>
+          </div>
+        </mat-option>
+
+        <mat-option *ngIf="products.length === 0" disabled>
+          <span class="suggestion-empty">No matches</span>
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+  </div>
+
+  <button class="au-btn-submit" type="button" (click)="doSearch(control.value)">
+    Search
+  </button>
+
+</div>

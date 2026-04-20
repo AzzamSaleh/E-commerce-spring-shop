@@ -1,0 +1,208 @@
+<!-- <p *ngFor="let tempProduct of products">
+  {{ tempProduct.name }}: {{ tempProduct.unitPrice | currency:'USD' }}
+</p> -->
+<!-- <h3>Count: {{ products.length }}</h3>
+
+<p *ngFor="let p of products">
+  {{ p.name }} : {{ p.unitPrice | currency:'USD' }}
+</p> -->
+
+<!-- <h2 style="background: yellow; padding: 10px;">
+  PRODUCT LIST TEMPLATE LOADED ✅ Count={{ products.length }}
+</h2>
+<ul>
+  <li *ngFor="let p of products">
+    {{ p.name }} - {{ p.unitPrice }}
+  </li>
+</ul> -->
+<!-- 
+<table class="table">
+
+    <thead class="table-dark">
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Units in Stock</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let tempProduct of products()">
+            <td class="align-middle">
+                <img src="{{ tempProduct.imageUrl }}" height="50" />
+            </td>
+            <td class="align-middle">{{ tempProduct.name}}</td>
+            <td class="align-middle">{{ tempProduct.unitPrice | currency:'USD'}}</td>
+            <td class="align-middle">{{ tempProduct.unitsInStock}}</td>
+        </tr>
+
+    </tbody>
+</table> -->
+
+<!-- --------------------------------------------------------------------------------- -->
+
+<!-- <div class="main-content">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      <div class="row g-4">
+         loop over the collection of products -->
+<!-- <div *ngFor="let tempProduct of products()" class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="product-box">
+            <img [src]="tempProduct.imageUrl" class="img-responsive" />
+            <h1>{{ tempProduct.name }}</h1>
+            <div class="price">{{ tempProduct.unitPrice | currency: 'USD' }}</div>
+            <a href="#" class="primary-btn">Add to cart</a>
+          </div>
+        </div>
+        if products empty then display a message-->
+<!-- @if (products().length === 0) {
+          <div class="alert alert-warning col-md-12" role="alert">No products found.</div>
+        } -->
+
+<!-- </div>
+    </div>
+  </div>
+</div> -->
+<!-- --------------------------------------------------------------------------------- -->
+
+<!-- loop over the collection of products
+@for (tempProduct of products(); track tempProduct.id) {
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="product-box">
+      <img [src]="tempProduct.imageUrl" class="img-responsive" />
+      <h1>{{ tempProduct.name }}</h1>
+      <div class="price">{{ tempProduct.unitPrice | currency: 'USD' }}</div>
+      <a href="#" class="primary-btn">Add to cart</a>
+    </div>
+  </div>
+}
+
+
+ if products empty then display a message -->
+<!-- @if (products().length === 0) {
+  <div class="alert alert-warning col-md-12" role="alert">No products found.</div>
+} -->
+<!-- --------------------------------------------------------------------------------- -->
+<div class="main-content">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      <div class="row">
+
+        <!-- loop over products -->
+        @for (tempProduct of products(); track tempProduct.id) {
+
+          <div class="col-md-3">
+            <div class="product-box">
+
+              <a [routerLink]="['/products', tempProduct.id]">
+                <img [src]="tempProduct.imageUrl" class="img-responsive">
+              </a>
+
+              <a [routerLink]="['/products', tempProduct.id]">
+                <h1>{{ tempProduct.name }}</h1>
+              </a>
+
+              <div class="price">
+                {{ tempProduct.unitPrice | currency:'USD' }}
+              </div>
+
+              <div class="mt-1">
+                Stock: {{ tempProduct.unitsInStock }}
+              </div>
+
+              <button
+                (click)="addToCart(tempProduct)"
+                class="btn btn-primary btn-sm mt-2"
+                [disabled]="tempProduct.unitsInStock === 0">
+                Add to cart
+              </button>
+
+              @if (tempProduct.unitsInStock === 0) {
+                <div class="text-danger mt-2">
+                  Out of stock
+                </div>
+              }
+
+            </div>
+          </div>
+
+        }
+
+        <!-- if empty -->
+        @if (products().length === 0) {
+          <div class="alert alert-warning col-md-12" role="alert">
+            No products found.
+          </div>
+        }
+
+      </div>
+
+      <!-- footer pagination -->
+      <!-- Bootstrap Pagination -->
+      @if (totalPages() > 1) {
+
+        <div class="d-flex justify-content-between align-items-center mt-4">
+
+          <!-- Page Size -->
+          <div>
+            <span class="me-2">Page Size:</span>
+
+            <select #pageSelect
+                    (change)="updatePageSize(pageSelect.value)"
+                    class="form-select d-inline w-auto">
+
+              <option>10</option>
+              <option>20</option>
+              <option>50</option>
+
+            </select>
+          </div>
+
+          <!-- Pagination -->
+          <ul class="pagination mb-0">
+
+            <!-- Previous -->
+            <li class="page-item" [class.disabled]="pageNumber() === 1">
+              <button class="page-link"
+                      (click)="goToPage(pageNumber() - 1)">
+                Previous
+              </button>
+            </li>
+
+            <!-- Page Numbers -->
+            @for (page of [].constructor(totalPages()); track $index; let i = $index) {
+
+              <li class="page-item"
+                  [class.active]="pageNumber() === i + 1">
+
+                <button class="page-link"
+                        (click)="goToPage(i + 1)">
+                  {{ i + 1 }}
+                </button>
+
+              </li>
+
+            }
+
+            <!-- Next -->
+            <li class="page-item"
+                [class.disabled]="pageNumber() === totalPages()">
+
+              <button class="page-link"
+                      (click)="goToPage(pageNumber() + 1)">
+                Next
+              </button>
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      }
+      <!-- end footer -->
+
+    </div>
+  </div>
+</div>
